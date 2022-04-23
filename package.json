@@ -1,0 +1,23 @@
+{
+  "name": "city-explorer-api",
+  "version": "1.0.0",
+  "description": "Backend API server for city explorer",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gina305/city-explorer-api.git"
+  },
+  "author": "G. Napier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gina305/city-explorer-api/issues"
+  },
+  "homepage": "https://github.com/gina305/city-explorer-api#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  }
+}
