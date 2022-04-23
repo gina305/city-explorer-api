@@ -4,7 +4,9 @@ const { response, application } = require('express');
 //Let's scaffold
 //Requires - define what is required for this server to run
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
+
 
 //Import weather data
 let data = require('./data/weather.json');
@@ -17,6 +19,7 @@ let data = require('./data/weather.json');
 
 //Use the express package
 const app = express();
+app.use(cors());
 
 //define and validate port (defined in the .env file) for this server. Consider .env file and whther it's imported if you have an issue here
 const PORT = process.env.PORT || 3002
