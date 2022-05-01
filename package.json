@@ -17,8 +17,9 @@
   },
   "homepage": "https://github.com/gina305/city-explorer-api#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.18.1"
   }
 }
