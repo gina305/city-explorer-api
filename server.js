@@ -11,6 +11,7 @@ const axios = require('axios');
 
 //Import weather data
 let data = require('./data/weather.json');
+const { timeout } = require('nodemon/lib/config');
 //console.log(data);
 
 //Require temp weather data for use with building/testing this server
@@ -67,6 +68,8 @@ app.get('/weather', (request, response) => {
      
 
       //Send a response for the weather
+      // response.send(filteredResponse);
+
       response.send(filteredResponse);
 
     } catch (error) {
@@ -79,6 +82,54 @@ app.get('/weather', (request, response) => {
 
 });
 
+//Route for movies API requests
+app.get('/movies', (request, response) => {
+
+  //Capture query parameters
+  let apiKey= process.env.MOVIE_API_KEY;
+  let city = request.query.city;
+  // let country = 'US';
+  //console.log(city);
+
+  let movieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${city}&false`;
+ //console.log(movieUrl)
+
+ async function getMovies() {
+
+  try {
+
+     //Request an array weather data using supplied lat and lon values - returns as an array
+  let cMovies = await axios.get(movieUrl);
+
+  let arr = cMovies.data.results;
+ //console.log(arr)
+   //Map through the weather data and creat objest for each day
+   let cResponse = arr.map(x =>
+    new Movie(x.title, x.poster_path, x.release_date)
+  );
+  console.log(cResponse);
+  response.send(cResponse)
+
+  } catch (error) {
+
+    response.status(404).send(`Sorry, no movies found for ${city}. Try again.`)
+
+  }
+ 
+};
+//Run the function
+getMovies();
+
+//Class for movies
+class Movie {
+  constructor(title,image, release_date) {
+    this.title=title;
+    this.image=`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${image}`;
+    this.release_date = release_date;
+  }
+}
+
+});
 
 //Catchall route which triggers last if other route requests have failed
 app.get('*', (request, response) => {
@@ -98,7 +149,7 @@ class Forecast {
 
 
 //Listen - Makes the server serve data using the express listen method which takes in to parameters: port value and callback function. Every time we make a change, we must restart the server, because Express is not aware. You'll need nodemon to install nodemon for that (npm i -g nodemon). Once installed, start your server using nodemon instead of npm start
-app.listen(PORT, () => console.log('Listening on: ' + PORT))
+app.listen(PORT, () => console.log('Listening on: ' + PORT));
 
 
 //Other notes: You can use 'npm kill-port <>' to stop a server fromn running
